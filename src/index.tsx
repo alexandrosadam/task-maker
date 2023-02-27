@@ -1,12 +1,14 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import ReactDOM from "react-dom";
-import ToDoForm from "./components/ToDoForm/ToDoForm";
+import MainHeader from "./components/MainHeader/MainHeader";
+import { CssBaseline } from "@mui/material";
 
 const App: FC = () => {
   return (
-    <section>
-      <ToDoForm />
-    </section>
+    <>
+      <MainHeader />
+      <CssBaseline />
+    </>
   );
 };
 
