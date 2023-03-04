@@ -8,6 +8,7 @@ export const headerContainer = () => css`
 
   .logo-container {
     display: flex;
+    text-decoration: none;
 
     .logo {
       width: 40px;
@@ -20,8 +21,13 @@ export const headerContainer = () => css`
     list-style-type: none;
 
     .list-item {
+      text-decoration: none;
       margin-right: 1rem;
       font-size: 1.25rem;
+
+      &:hover {
+        color: black;
+      }
 
       &:last-child {
         margin-right: 0;
