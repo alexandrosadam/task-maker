@@ -1,6 +1,7 @@
 export const URLS = {
   root: "/",
-  profile: "/profile",
-  statistics: "/statistics",
-  calendar: "/calendar",
+  dashboard: "dashboard",
+  profile: "profile",
+  statistics: "statistics",
+  calendar: "calendar",
 };
