@@ -1,18 +1,16 @@
 import MainHeader from "@components/MainHeader/MainHeader";
-import { FC, ReactNode } from "react";
 import { main, content } from "./styles";
 import { Outlet } from "react-router-dom";
+import { Suspense } from "react";
+import Loader from "@components/Loader/Loader";
 
-type DashboardLayoutProps = {
-  children: ReactNode;
-};
-
-const DashboardLayout: FC = ({ children }: DashboardLayoutProps) => (
+const DashboardLayout = () => (
   <div css={main}>
     <div className="main-content-container">
       <MainHeader />
       <div id="scroll-container" css={content}>
         <main className="main-content-wrapper">
+          <Suspense fallback={<Loader />}></Suspense>
           <Outlet />
         </main>
       </div>

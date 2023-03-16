@@ -9,7 +9,7 @@ const MainHeader: FC = () => {
   return (
     <AppBar position="sticky" sx={{ backgroundColor: "#3386b8" }} css={headerContainer}>
       <Toolbar className="toolbar-container">
-        <Link className="logo-container" to={URLS.root}>
+        <Link className="logo-container" to={URLS.dashboard}>
           <AddTaskIcon className="logo" />
           <Typography variant="h4">Daily manager</Typography>
         </Link>

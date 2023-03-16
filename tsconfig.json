@@ -19,8 +19,13 @@
       "@components/*": ["./src/components/*"],
       "@views": ["./src/views"],
       "@views/*": ["./src/views/*"],
+      "@hooks": ["./src/hooks"],
+      "@hooks/*": ["./src/hooks/*"],
       "@constants/*": ["./src/constants/*"],
-      "@layouts/*": ["./src/layouts/*"]
+      "@layouts/*": ["./src/layouts/*"],
+      "@api/*": ["./src/api/*"],
+      "@utils": ["./src/utils"],
+      "@utils/*": ["./src/utils/*"]
     }, // A series of entries which re-map imports to lookup locations relative to the baseUrl
 
     // Source Map

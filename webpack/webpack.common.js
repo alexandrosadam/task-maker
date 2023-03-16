@@ -27,6 +27,9 @@ module.exports = {
       "@views": path.resolve(__dirname, "../src/views"),
       "@constants": path.resolve(__dirname, "../src/constants"),
       "@layouts": path.resolve(__dirname, "../src/layouts"),
+      "@api": path.resolve(__dirname, "../src/api"),
+      "@utils": path.resolve(__dirname, "../src/utils"),
+      "@hooks": path.resolve(__dirname, "../src/hooks"),
     },
   },
 };

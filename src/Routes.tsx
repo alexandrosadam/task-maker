@@ -1,52 +1,37 @@
+import { lazy } from "react";
 import { URLS } from "@constants/urls";
-import { Routes as Switch, Route, BrowserRouter as Router } from "react-router-dom";
+import { Routes as Switch, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "./layouts/DashboardLayout/DashboardLayout";
-import Dashboard from "@views/Dashboard/Dashboard";
-import Profile from "@views/Profile/Profile";
-import Statistics from "@views/Statistics/Statistics";
-import Calendar from "@views/Calendar/Calendar";
-import Login from "@views/Login/Login";
-import BasicLayout from "@layouts/BasicLayout/BasicLayout";
-import React from "react";
 import LayoutWrapper from "@layouts/LayoutWrapper/LayoutWrapper";
+import BasicLayout from "@layouts/BasicLayout/BasicLayout";
+import PrivateRoute from "@components/PrivateRoute/PrivateRoute";
 
-//const Login = React.lazy(() => import("@views/Login/Login"));
+// Lazy loading
+const Login = lazy(() => import("@views/Login/Login"));
+const Dashboard = lazy(() => import("@views/Dashboard/Dashboard"));
+const Profile = lazy(() => import("@views/Profile/Profile"));
+const Statistics = lazy(() => import("@views/Statistics/Statistics"));
+const Calendar = lazy(() => import("@views/Calendar/Calendar"));
 
 const Routes = () => (
   <LayoutWrapper>
     <Switch>
-      <Route path={URLS.root} element={<Login />} />
-
-      <Route path="dashboard" element={<DashboardLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path={URLS.profile} element={<Profile />} />
-        <Route path={URLS.statistics} element={<Statistics />} />
-        <Route path={URLS.calendar} element={<Calendar />} />
+      {/* Public pages */}
+      <Route path={URLS.root} element={<Navigate to={URLS.login} replace />} />
+      <Route element={<BasicLayout />}>
+        <Route path={URLS.login} element={<Login />} />
       </Route>
 
-      {/* <BasicLayout> */}
-
-      {/* </BasicLayout> */}
-
-      {/* <DashboardLayout>
-        <Route path={URLS.dashboard} element={<Dashboard />} />
-      </DashboardLayout> */}
-      {/* <Route path={URLS.profile} element={<Profile />} />
-      <Route path={URLS.statistics} element={<Statistics />} />
-      <Route path={URLS.calendar} element={<Calendar />} /> */}
-      {/* <Route path={URLS.dashboard}>
-        <Dashboard />
-      </Route> */}
-      {/* <DashboardLayout>
-        <Route path={URLS.profile} element={<Profile />} />
-        </DashboardLayout>
-        <DashboardLayout>
-        <Route path={URLS.statistics} element={<Statistics />} />
-        </DashboardLayout>
-        <DashboardLayout>
-        {/* </BasicLayout> */}
-      {/* <Route path={URLS.calendar} element={<Calendar />} /> */}
-      {/* </DashboardLayout> */}
+      {/* Private pages */}
+      <Route element={<PrivateRoute />}>
+        <Route element={<DashboardLayout />}>
+          <Route index path={URLS.dashboard} element={<Dashboard />} />
+          <Route path={URLS.profile} element={<Profile />} />
+          <Route path={URLS.statistics} element={<Statistics />} />
+          <Route path={URLS.calendar} element={<Calendar />} />
+          <Route path="*" element={<p>There's nothing here: 404!</p>} />
+        </Route>
+      </Route>
     </Switch>
   </LayoutWrapper>
 );
