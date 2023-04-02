@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
+const { merge } = require("webpack-merge");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
@@ -16,21 +17,39 @@ module.exports = (env) => {
 
   return merge(common, {
     mode: "production",
-    devTool: "hidden-source-map",
+    devtool: "hidden-source-map",
     optimization: {
       minimize: true,
-      minimizer: [new TerserPlugin(), new OptimizeCSSAssetsPlugin()],
+      minimizer: [
+        new TerserPlugin({
+          parallel: true,
+          terserOptions: {
+            compress: {
+              drop_console: true,
+            },
+          },
+        }),
+        new OptimizeCSSAssetsPlugin(),
+      ],
     },
     output: {
       path: path.resolve("dist"),
       filename: "bundle.[fullhash].js",
     },
     plugins: [
-      new MiniCssExtractPlugin({ filename: "[fullhash].css" }),
+      new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
       new HtmlWebPackPlugin({
         base: basePath,
         template: "./src/index.html",
         filename: "./index.html",
+        minify: {
+          collapseWhitespace: true,
+          removeComments: true,
+          removeRedundantAttributes: true,
+          removeScriptTypeAttributes: true,
+          removeStyleLinkTypeAttributes: true,
+          useShortDoctype: true,
+        },
       }),
       new webpack.DefinePlugin({
         ENV: JSON.stringify(env.env),

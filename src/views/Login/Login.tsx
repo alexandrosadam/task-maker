@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { URLS } from "@constants/urls";
 import { LoginPostData, signIn } from "@api/app";
 import authService from "@utils/services/AuthService";
+import { toast } from "react-toastify";
 
 const signInFormSchema = yup.object().shape({
   username: yup.string().required("Username is a required field"),
@@ -27,9 +28,19 @@ const Login = () => {
 
       authService.setTokens({ token: authData.token });
 
-      if (authData.token) navigate(location.state?.from ?? URLS.dashboard);
+      // username: kminchelle
+      // password: 0lelplR
+
+      if (authData.token) {
+        toast("You have correct credentials!", {
+          type: "success",
+        });
+        navigate(location.state?.from ?? URLS.dashboard);
+      }
     } catch (error) {
-      console.log("Eroor on sign in!");
+      toast("Error on signing in!", {
+        type: "error",
+      });
     }
   };
 

@@ -1,10 +1,8 @@
 import { lazy } from "react";
 import { URLS } from "@constants/urls";
 import { Routes as Switch, Route, Navigate } from "react-router-dom";
-import DashboardLayout from "./layouts/DashboardLayout/DashboardLayout";
-import LayoutWrapper from "@layouts/LayoutWrapper/LayoutWrapper";
-import BasicLayout from "@layouts/BasicLayout/BasicLayout";
-import PrivateRoute from "@components/PrivateRoute/PrivateRoute";
+import { BasicLayout, DashboardLayout, LayoutWrapper } from "./layouts";
+import { PrivateRoute } from "@components";
 
 // Lazy loading
 const Login = lazy(() => import("@views/Login/Login"));
