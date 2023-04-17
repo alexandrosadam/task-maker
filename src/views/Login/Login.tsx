@@ -57,7 +57,6 @@ const Login = () => {
             label="Username"
             autoComplete="username"
             margin="normal"
-            required
             fullWidth
             autoFocus
           />
@@ -70,7 +69,6 @@ const Login = () => {
             autoComplete="current-password"
             margin="normal"
             type="password"
-            required
             fullWidth
           />
         </div>
