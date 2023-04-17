@@ -1,4 +1,5 @@
-import { Button, TextField, FormControlLabel, Checkbox, Typography } from "@mui/material";
+import { TextField, FormControlLabel, Checkbox, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,6 +9,7 @@ import { URLS } from "@constants/urls";
 import { LoginPostData, signIn } from "@api/app";
 import authService from "@utils/services/AuthService";
 import { toast } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 
 const signInFormSchema = yup.object().shape({
   username: yup.string().required("Username is a required field"),
@@ -22,26 +24,29 @@ const Login = () => {
     resolver: yupResolver(signInFormSchema),
   });
 
-  const onSubmitSuccess = async ({ username, password }: LoginPostData): Promise<void> => {
-    try {
-      const authData = await signIn({ username, password });
+  // username: kminchelle
+  // password: 0lelplR
 
-      authService.setTokens({ token: authData.token });
-
-      // username: kminchelle
-      // password: 0lelplR
-
-      if (authData.token) {
+  const { mutate: loginMutation, isLoading } = useMutation(
+    ({ username, password }: LoginPostData) => signIn({ username, password }),
+    {
+      onSuccess: (response) => {
+        authService.setTokens({ token: response.token });
         toast("You have correct credentials!", {
           type: "success",
         });
         navigate(location.state?.from ?? URLS.dashboard);
-      }
-    } catch (error) {
-      toast("Error on signing in!", {
-        type: "error",
-      });
-    }
+      },
+      onError: () => {
+        toast("Error on signing in!", {
+          type: "error",
+        });
+      },
+    },
+  );
+
+  const onSubmitSuccess = ({ username, password }: LoginPostData) => {
+    loginMutation({ username, password });
   };
 
   return (
@@ -76,9 +81,15 @@ const Login = () => {
           control={<Checkbox value="remember" color="primary" />}
           label="Remember me"
         />
-        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }} fullWidth>
+        <LoadingButton
+          loading={isLoading}
+          type="submit"
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+          fullWidth
+        >
           Sign In
-        </Button>
+        </LoadingButton>
       </section>
     </form>
   );
