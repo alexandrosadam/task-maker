@@ -49,6 +49,7 @@ const MainHeader: FC = () => {
             aria-expanded={open ? "true" : undefined}
             className="list-item"
             onClick={handleClick}
+            disableRipple
           >
             Profile
           </Button>
@@ -61,7 +62,7 @@ const MainHeader: FC = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleProfile}>Profile</MenuItem>
+            <MenuItem onClick={handleProfile}>Profile settings</MenuItem>
             <MenuItem onClick={handleLogoutUser}>Logout</MenuItem>
           </Menu>
         </li>

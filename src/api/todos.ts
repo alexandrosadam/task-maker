@@ -3,9 +3,9 @@ import { ENDPOINTS } from "./endpoints";
 
 export type ToDo = {
   id: number;
-  userId: number;
+  userId?: number;
   title: string;
-  isCompleted: boolean;
+  isCompleted?: boolean;
 };
 
 export const getToDos = async (): Promise<ToDo[]> => {

@@ -9,8 +9,8 @@ type ToDoListProps = {
 const ToDoList = ({ todos }: ToDoListProps) => {
   return (
     <section css={cardContainer} className="item-container">
-      {todos.map(({ id, userId, title, isCompleted }) => (
-        <TodoCard id={id} userId={userId} title={title} isCompleted={isCompleted} />
+      {todos.map(({ id, title }) => (
+        <TodoCard id={id} title={title} />
       ))}
     </section>
   );
