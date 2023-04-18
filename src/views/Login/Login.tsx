@@ -32,9 +32,6 @@ const Login = () => {
     {
       onSuccess: (response) => {
         authService.setTokens({ token: response.token });
-        toast("You have correct credentials!", {
-          type: "success",
-        });
         navigate(location.state?.from ?? URLS.dashboard);
       },
       onError: () => {

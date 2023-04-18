@@ -24,12 +24,14 @@ export const headerContainer = () => css`
       text-decoration: none;
       margin-right: 1rem;
       font-size: 1.25rem;
+      color: #443131;
 
       &:hover {
-        color: black;
+        color: #ffffff;
       }
 
       &:last-child {
+        text-transform: none;
         margin-right: 0;
       }
     }
