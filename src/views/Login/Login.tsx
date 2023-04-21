@@ -24,14 +24,11 @@ const Login = () => {
     resolver: yupResolver(signInFormSchema),
   });
 
-  // username: kminchelle
-  // password: 0lelplR
-
   const { mutate: loginMutation, isLoading } = useMutation(
     ({ username, password }: LoginPostData) => signIn({ username, password }),
     {
       onSuccess: (response) => {
-        authService.setTokens({ token: response.token });
+        authService.setTokens(response);
         navigate(location.state?.from ?? URLS.dashboard);
       },
       onError: () => {
@@ -51,6 +48,7 @@ const Login = () => {
       <Typography component="h1" variant="h5">
         Sign in
       </Typography>
+      <div> "email": "john@mail.com", "password": "changeme"</div>
       <section>
         <div>
           <TextField

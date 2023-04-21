@@ -1,12 +1,14 @@
 import { ENDPOINTS } from "./endpoints";
-import axios from "axios";
+import HttpClient from "./HttpClient";
+
 export type LoginPostData = {
   username: string;
   password: string;
 };
 
 export type AuthRes = {
-  token: string;
+  access_token: string;
+  refresh_token: string;
 };
 
 export type UserRes = {
@@ -20,19 +22,23 @@ export type UserRes = {
   token: string;
 };
 
-const formContentType = {
-  "Content-Type": "application/json",
-};
-
-export const signIn = async (formData: LoginPostData): Promise<UserRes> => {
+export const signIn = async (formData: LoginPostData): Promise<AuthRes> => {
   const bodyFormData = new FormData();
 
-  bodyFormData.append("username", formData.username);
+  bodyFormData.append("email", formData.username);
   bodyFormData.append("password", formData.password);
 
-  const res = await axios.post(ENDPOINTS.public.login, bodyFormData, {
-    headers: formContentType,
-  });
+  const res = await HttpClient.post(ENDPOINTS.public.login, bodyFormData);
+
+  return res.data;
+};
+
+export const postNewAccessToken = async (refreshToken: string): Promise<AuthRes> => {
+  const bodyFormData = new FormData();
+
+  bodyFormData.append("refresh_token", refreshToken);
+
+  const res = await HttpClient.post(ENDPOINTS.user.refreshToken, bodyFormData);
 
   return res.data;
 };
