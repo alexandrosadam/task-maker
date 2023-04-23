@@ -11,17 +11,6 @@ export type AuthRes = {
   refresh_token: string;
 };
 
-export type UserRes = {
-  id: number;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  image: string;
-  token: string;
-};
-
 export const signIn = async (formData: LoginPostData): Promise<AuthRes> => {
   const bodyFormData = new FormData();
 

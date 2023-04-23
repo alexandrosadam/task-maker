@@ -2,16 +2,22 @@ import { getToDos } from "@api/todos";
 import { ToDoList } from "@components";
 import { queryKeys } from "@constants/queryKeys";
 import { useQuery } from "@tanstack/react-query";
-import { FC, useState } from "react";
+import { useUIStore } from "@stores";
+import { getUserInfo } from "@api/user";
 
-const Dashboard: FC = () => {
-  const [todos, setTodos] = useState([]);
+const Dashboard = () => {
+  const { updateUserProfile } = useUIStore();
 
-  const { data, isLoading } = useQuery([queryKeys.todos], () => getToDos(), {
+  useQuery([queryKeys.user.profile], () => getUserInfo(), {
+    onSuccess: (response) => {
+      updateUserProfile(response);
+    },
+  });
+
+  const { data } = useQuery([queryKeys.todos], () => getToDos(), {
     refetchOnWindowFocus: false,
   });
 
-  console.log(data);
   return (
     <div>
       {" "}

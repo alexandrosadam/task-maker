@@ -10,7 +10,7 @@ const ToDoList = ({ todos }: ToDoListProps) => {
   return (
     <section css={cardContainer} className="item-container">
       {todos.map(({ id, title }) => (
-        <TodoCard id={id} title={title} />
+        <TodoCard key={id} id={id} title={title} />
       ))}
     </section>
   );

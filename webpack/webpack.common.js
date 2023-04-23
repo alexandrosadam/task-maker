@@ -31,6 +31,8 @@ module.exports = {
       "@utils": path.resolve(__dirname, "../src/utils"),
       "@hooks": path.resolve(__dirname, "../src/hooks"),
       "@test-utils": path.resolve(__dirname, "../src/test-utils"),
+      "@stores": path.resolve(__dirname, "../src/stores"),
+      types: path.resolve(__dirname, "../src/types"),
     },
   },
 };
