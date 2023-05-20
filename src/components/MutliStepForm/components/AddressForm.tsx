@@ -1,4 +1,4 @@
-import FormWrapper from "@components/FormWrapper/FormWrapper";
+import FormWrapper from "@components/MutliStepForm/MultiStepForm";
 
 type AddressData = {
   street: string;
@@ -11,9 +11,9 @@ type AddressFormProps = AddressData & {
   updateFields: (fields: Partial<AddressData>) => void;
 };
 
-export function AddressForm({ street, city, state, zip, updateFields }: AddressFormProps) {
+const AddressForm = ({ street, city, state, zip, updateFields }: AddressFormProps) => {
   return (
-    <FormWrapper title="Address">
+    <>
       <label>Street</label>
       <input
         autoFocus
@@ -43,6 +43,8 @@ export function AddressForm({ street, city, state, zip, updateFields }: AddressF
         value={zip}
         onChange={(e) => updateFields({ zip: e.target.value })}
       />
-    </FormWrapper>
+    </>
   );
-}
+};
+
+export default AddressForm;

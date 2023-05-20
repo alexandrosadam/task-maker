@@ -1,4 +1,4 @@
-import FormWrapper from "@components/FormWrapper/FormWrapper";
+import FormWrapper from "@components/MutliStepForm/MultiStepForm";
 
 type AccountData = {
   email: string;
@@ -9,7 +9,7 @@ type AccountFormProps = AccountData & {
   updateFields: (fields: Partial<AccountData>) => void;
 };
 
-export function AccountForm({ email, password, updateFields }: AccountFormProps) {
+const AccountForm = ({ email, password, updateFields }: AccountFormProps) => {
   return (
     <FormWrapper title="Account Creation">
       <label>Email</label>
@@ -29,4 +29,6 @@ export function AccountForm({ email, password, updateFields }: AccountFormProps)
       />
     </FormWrapper>
   );
-}
+};
+
+export default AccountForm;
