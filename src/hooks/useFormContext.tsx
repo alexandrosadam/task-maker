@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, ReactElement } from "react";
+import { useState, createContext, useContext, ReactNode } from "react";
 
 export type FormData = {
   firstName: string;
@@ -24,26 +24,54 @@ export const DEFAULT_DATA: FormData = {
   password: "",
 };
 
-export const FormContext = createContext({
-  data: FormData,
-  setFormValues: () => {},
-});
-
 type FormProviderProps = {
-  children: ReactElement;
+  children: ReactNode;
 };
 
-export default function FormProvider({ children }: FormProviderProps) {
-  const [data, setData] = useState<FormData>(DEFAULT_DATA);
+type FormContextType = {
+  formData: FormData | null;
+  activeStep: number;
+  handleNextFormStep: () => void;
+  handlePreviousFormStep: () => void;
+  handleChangeFormStep: (index: number) => void;
+  updateMultiStepFormValues: (newValues: FormData) => void;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  setFormData: React.Dispatch<React.SetStateAction<FormData | null>>;
+};
 
-  const setFormValues = (newValues: FormData) => {
-    setData((prevValues) => ({
+export const FormContext = createContext<FormContextType | null>(null);
+
+export default function MultiStepFormProvider({ children }: FormProviderProps) {
+  const [formData, setFormData] = useState<FormData | null>(DEFAULT_DATA);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const updateMultiStepFormValues = (newValues: FormData) => {
+    setFormData((prevValues) => ({
       ...prevValues,
       ...newValues,
     }));
   };
 
-  return <FormContext.Provider value={{ data, setFormValues }}>{children}</FormContext.Provider>;
+  const handleNextFormStep = () => setActiveStep((currentStep) => currentStep + 1);
+  const handlePreviousFormStep = () => setActiveStep((currentStep) => currentStep - 1);
+  const handleChangeFormStep = (index: number) => setActiveStep(index);
+
+  return (
+    <FormContext.Provider
+      value={{
+        formData,
+        setFormData,
+        updateMultiStepFormValues,
+        activeStep,
+        setActiveStep,
+        handleNextFormStep,
+        handlePreviousFormStep,
+        handleChangeFormStep,
+      }}
+    >
+      {children}
+    </FormContext.Provider>
+  );
 }
 
 export const useFormData = () => useContext(FormContext);
