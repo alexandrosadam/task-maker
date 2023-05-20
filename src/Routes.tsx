@@ -10,6 +10,8 @@ const Dashboard = lazy(() => import("@views/Dashboard/Dashboard"));
 const Profile = lazy(() => import("@views/Profile/Profile"));
 const Statistics = lazy(() => import("@views/Statistics/Statistics"));
 const Calendar = lazy(() => import("@views/Calendar/Calendar"));
+const Register = lazy(() => import("@views/Register/Register"));
+const TodoNew = lazy(() => import("@views/TodoNew/TodoNew"));
 
 const Routes = () => (
   <LayoutWrapper>
@@ -18,6 +20,7 @@ const Routes = () => (
       <Route path={URLS.root} element={<Navigate to={URLS.login} replace />} />
       <Route element={<BasicLayout />}>
         <Route path={URLS.login} element={<Login />} />
+        <Route path={URLS.register} element={<Register />} />
       </Route>
 
       {/* Private pages */}
@@ -27,6 +30,7 @@ const Routes = () => (
           <Route path={URLS.profile} element={<Profile />} />
           <Route path={URLS.statistics} element={<Statistics />} />
           <Route path={URLS.calendar} element={<Calendar />} />
+          <Route path={URLS.todo.newTodo} element={<TodoNew />} />
           <Route path="*" element={<p>There's nothing here: 404!</p>} />
         </Route>
       </Route>

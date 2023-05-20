@@ -42,6 +42,10 @@ const MainHeader: FC = () => {
           <Link to={URLS.calendar} className="list-item">
             Calendar
           </Link>
+          <Link to={URLS.todo.newTodo} className="list-item">
+            New todo
+          </Link>
+
           <Button
             id="basic-button"
             aria-controls={open ? "basic-menu" : undefined}

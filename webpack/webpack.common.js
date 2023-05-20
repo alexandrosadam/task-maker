@@ -17,6 +17,17 @@ module.exports = {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
+      {
+        test: /\.(png|jpg|svg|gif)$/,
+        use: [
+          {
+            loader: "@svgr/webpack",
+            options: {
+              name: "images/[fullhash]-[name].[ext]",
+            },
+          },
+        ],
+      },
     ],
   },
   resolve: {
@@ -33,6 +44,7 @@ module.exports = {
       "@test-utils": path.resolve(__dirname, "../src/test-utils"),
       "@stores": path.resolve(__dirname, "../src/stores"),
       types: path.resolve(__dirname, "../src/types"),
+      "@images": path.resolve(__dirname, "../src/images"),
     },
   },
 };
