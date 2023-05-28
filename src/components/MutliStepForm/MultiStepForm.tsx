@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { formWrapperContainer } from "./styles";
+import { formWrapperContainer } from "./components/styles";
 import { Button, Step, StepLabel, Stepper } from "@mui/material";
 import MultiStepFormProvider from "@hooks/useFormContext";
-import { UserForm } from "./components";
+import { UserForm, AddressForm, AccountForm } from "./components";
 import { useNavigate } from "react-router-dom";
 import { URLS } from "@constants/urls";
 import { Controller, useForm } from "react-hook-form";
@@ -22,7 +22,7 @@ export type FormData = {
 };
 
 export const DEFAULT_DATA: FormData = {
-  firstName: "Alex",
+  firstName: "",
   lastName: "",
   age: "",
   street: "",
@@ -37,7 +37,13 @@ type FormWrapperProps = {
   formType: "edit" | "new";
 };
 
-const steps = ["User info", "Address info", "Account info"];
+//const steps = ["User info", "Address info", "Account info"];
+
+const steps = {
+  userInfo: "User info",
+  addressInfo: "Address info",
+  accountInfo: "Account info",
+};
 
 const multiStepFormScema = yup.object().shape({
   firstName: yup.string().required(),
@@ -49,7 +55,7 @@ const MultiStepForm = ({ formType }: FormWrapperProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState<FormData>(DEFAULT_DATA);
   const isFirstFormStep = currentStep === 0;
-  const isLastFormStep = currentStep === steps.length - 1;
+  const isLastFormStep = currentStep === Object.keys(steps).length - 1;
   const navigate = useNavigate();
 
   const updateMultiStepFormValues = (newValues: Partial<FormData>) => {
@@ -57,12 +63,17 @@ const MultiStepForm = ({ formType }: FormWrapperProps) => {
       ...prevValues,
       ...newValues,
     }));
+    console.log("formData", formData);
+    console.log("currentStep", currentStep);
+    handleNextFormStep();
   };
 
-  const hookForm = useForm<FormData>({
+  const { register, formState, handleSubmit } = useForm<FormData>({
     mode: "onChange",
     resolver: yupResolver(multiStepFormScema),
   });
+
+  const { errors } = formState;
 
   const handleNextFormStep = () => setCurrentStep((activeStep) => activeStep + 1);
   const handlePreviousFormStep = () => setCurrentStep((activeStep) => activeStep - 1);
@@ -77,21 +88,43 @@ const MultiStepForm = ({ formType }: FormWrapperProps) => {
   const getStepContent = (step: number): JSX.Element => {
     switch (step) {
       case 0:
-        return <UserForm data={formData} />;
+        return (
+          <UserForm
+            data={formData}
+            updateFormData={updateMultiStepFormValues}
+            handleCancelFormStep={handleCancelFormStep}
+          />
+        );
       case 1:
-        return <div> Multi step 2</div>;
+        return (
+          <AddressForm
+            data={formData}
+            updateFormData={updateMultiStepFormValues}
+            handlePreviousFormStep={handlePreviousFormStep}
+            handleCancelFormStep={handleCancelFormStep}
+          />
+        );
       case 2:
-        return <div> Multi step 2</div>;
+        return (
+          <AccountForm
+            data={formData}
+            updateFormData={updateMultiStepFormValues}
+            handlePreviousFormStep={handlePreviousFormStep}
+            handleCancelFormStep={handleCancelFormStep}
+          />
+        );
       default:
         return <></>;
     }
   };
 
+  console.log("Object.keys(steps)[currentStep]", Object.keys(steps)[currentStep]);
+
   return (
     <section css={formWrapperContainer}>
       <h1 className="form_title">{formType.toUpperCase()}</h1>
       <Stepper activeStep={currentStep} alternativeLabel>
-        {steps.map((label, index) => (
+        {Object.keys(steps).map((label, index) => (
           <Step
             key={label}
             disabled={formType === "new"}
@@ -101,24 +134,27 @@ const MultiStepForm = ({ formType }: FormWrapperProps) => {
           </Step>
         ))}
       </Stepper>
-      <h2 className="form_title">{steps[currentStep]}</h2>
-      <form onSubmit={hookForm.handleSubmit(onSubmit)}>
-        {getStepContent(currentStep)}
-        {/* create buttons as well */}
-        <div className="form-action-buttons">
-          <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleCancelFormStep}>
-            Cancel
-          </Button>
-          {!isFirstFormStep && (
-            <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePreviousFormStep}>
-              Back
+      <h2 className="form_title">{Object.values(steps)[currentStep]}</h2>
+      <section css={formWrapperContainer}>
+        <form onSubmit={handleSubmit(onSubmit)} id={Object.keys(steps)[currentStep]}>
+          {getStepContent(currentStep)}
+
+          <div className="form-action-buttons">
+            <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleCancelFormStep}>
+              Cancel
             </Button>
-          )}
-          <Button variant="contained" sx={{ mt: 3, mb: 2 }}>
-            {isLastFormStep ? "Save" : "Next"}
-          </Button>
-        </div>
-      </form>
+            {!isFirstFormStep && (
+              <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePreviousFormStep}>
+                Back
+              </Button>
+            )}
+            <Button variant="contained" sx={{ mt: 3, mb: 2 }} type="submit">
+              {isLastFormStep ? "Save" : "Next"}
+            </Button>
+            <input type="submit" value="Submit" />
+          </div>
+        </form>
+      </section>
     </section>
   );
 };

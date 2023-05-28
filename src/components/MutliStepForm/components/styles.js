@@ -13,4 +13,9 @@ export const formWrapperContainer = css`
     justify-content: flex-start;
     grid-template-columns: auto minmax(auto, 400px);
   }
+
+  .form-action-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
 `;

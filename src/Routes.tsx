@@ -10,7 +10,6 @@ const Dashboard = lazy(() => import("@views/Dashboard/Dashboard"));
 const Profile = lazy(() => import("@views/Profile/Profile"));
 const Statistics = lazy(() => import("@views/Statistics/Statistics"));
 const Calendar = lazy(() => import("@views/Calendar/Calendar"));
-const Register = lazy(() => import("@views/Register/Register"));
 const TodoNew = lazy(() => import("@views/TodoNew/TodoNew"));
 
 const Routes = () => (
@@ -20,7 +19,6 @@ const Routes = () => (
       <Route path={URLS.root} element={<Navigate to={URLS.login} replace />} />
       <Route element={<BasicLayout />}>
         <Route path={URLS.login} element={<Login />} />
-        <Route path={URLS.register} element={<Register />} />
       </Route>
 
       {/* Private pages */}
